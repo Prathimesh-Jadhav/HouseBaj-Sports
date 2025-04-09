@@ -1,8 +1,6 @@
-import reactLogo from './assets/react.svg'
 import Collection from './pages/Collection'
 import LandingPage from './pages/LandingPage'
 import ProductDetails from './pages/ProductDetails'
-import viteLogo from '/vite.svg'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 function App() {
