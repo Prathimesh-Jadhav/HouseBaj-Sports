@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { ShoppingBag, Search, Menu, X, ChevronDown, Heart, User } from 'lucide-react';
 import heroImg from '../assets/heroImg.jpg';
-import gym from '../assets/gym.jpg';
 import { categories } from '../data';
 import { featuredProducts } from '../data';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -25,7 +24,7 @@ const LandingPage = () => {
               <p className="text-lg md:text-xl text-gray-300 mb-8">Premium sports accessories for champions. Discover our elite collection designed for performance and style.</p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <button className="bg-rose-600 hover:bg-rose-700 text-white px-8 py-3 rounded-md font-medium" onClick={() => navigate('/collection')}>Shop Now</button>
-                <button className="border border-white hover:border-rose-600 hover:text-rose-600 px-8 py-3 rounded-md font-medium">Explore Categories</button>
+                <a href='#categories' className="border border-white hover:border-rose-600 hover:text-rose-600 px-8 py-3 rounded-md font-medium">Explore Categories</a>
               </div>
             </div>
             <div className="md:w-1/2">

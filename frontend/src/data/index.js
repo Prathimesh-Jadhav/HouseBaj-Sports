@@ -1,7 +1,5 @@
-import gymImg from '../assets/gym.jpg'
-import cycling from '../assets/cycling.jpg'
+
 import running from '../assets/running.jpg'
-import teamsports from '../assets/teamsports.webp'
 import fitnessTracker from '../assets/fitnessTracker.webp'
 import trainingBands from '../assets/trainingResistanceBands.jpg'
 import waterBottle from '../assets/sportsWaterBottle.jpg'
@@ -15,59 +13,95 @@ import earbuds from '../assets/earbuds.jpg'
 import badminton from '../assets/tennisracket.jpg'
 import goggles from '../assets/goggles.jpg'
 import batminton2 from '../assets/batminton2.jpg'
+import cricket from '../assets/cricket.jpg'
+import swimming from '../assets/swimming.jpg'
+import yoga from '../assets/yoga.jpg'
+import volleyball from '../assets/volleyball.jpg'
+import football from '../assets/football.jpg'
+import hockey from '../assets/hockey.jpg'
+import cricketBat from '../assets/cricket-bat.jpg'
+import nike from '../assets/nike.webp'
+import yonex from '../assets/yonex.jpg'
+import mikasa from '../assets/mikasa.jpg'
+import adidas from '../assets/adidas.jpg'
+import hockeyStick from '../assets/hockeyStick.jpg'
+import cricketGloves from '../assets/cricketGloves.webp'
+import garmin from '../assets/Garmin.jpg'
+import manduka from '../assets/manduka.jpg'
+import assics from '../assets/kneePads.jpg'
 
 export const categories = [
     {
         id: 1,
-        name: 'Fitness',
-        image: gymImg
+        name: 'Cricket',
+        image: cricket
     },
     {
         id: 2,
         name: 'Running',
-        image: cycling
-    },
-    {
-        id: 3,
-        name: 'Cycling',
         image: running
     },
     {
+        id: 3,
+        name: 'Badminton',
+        image: batminton2
+    },
+    {
         id: 4,
-        name: 'Team Sports',
-        image: teamsports
+        name: 'Swimming',
+        image: swimming
+    },
+    {
+        id: 5,
+        name: 'Yoga',
+        image: yoga
+    },
+    {
+        id: 6,
+        name: 'VolleyBall',
+        image: volleyball
+    },
+    {
+        id: 7,
+        name: 'Football',
+        image: football
+    },
+    {
+        id: 8,
+        name: 'Hockey',
+        image: hockey
     },
 ]
 
-export const  featuredProducts = [
+export const featuredProducts = [
   {
     id: 1,
-    name: 'Pro Fitness Tracker',
-    image: fitnessTracker,
-    price: 19.99,
+    name: 'Cricket Bat - PowerPlay Edition',
+    image: cricketBat, // Replace with your actual image variable or path
+    price: 49.99,
     discount: "10%",
   },
   {
     id: 2,
-    name: 'Premium Water Bottle',
-    image: waterBottle,
-    price: 29.99,
-    discount: "20%",
-  },
-  {
-    id: 3,
-    name: 'Training Resistance Bands',
-    image: trainingBands,
-    price: 32.99,
+    name: 'Running Shoes - SpeedX Pro',
+    image: running,
+    price: 59.99,
     discount: "15%",
   },
   {
+    id: 3,
+    name: 'Badminton Racket - Smash Master 3000',
+    image: batminton2,
+    price: 39.99,
+    discount: "20%",
+  },
+  {
     id: 4,
-    name: 'Elite Sports Backpack',
-    image: bag,
-    price: 89.99,
+    name: 'Swimming Goggles - Aqua Vision',
+    image: goggles,
+    price: 24.99,
     discount: "5%",
-  }
+  },
 ]
 
 export const testimonials = [
@@ -78,225 +112,227 @@ export const testimonials = [
 
 
     // Sample product data
- export  const products = [
+    export const products = [
       {
         id: 1,
-        name: "Pro Training Basketball",
-        price: 49.99,
-        category: "Basketball",
-        brand: "Nike",
-        image: basketBall,
+        name: "Pro Cricket Bat",
+        price: 59.99,
+        category: "Cricket",
+        brand: "SS",
+        image: cricket,
         badge: "New",
-        description: "Professional-grade training basketball with superior grip and durability."
+        description: "Grade A English willow bat ideal for professional-level cricket matches."
       },
       {
         id: 2,
-        name: "Premium Tennis Racket",
-        price: 129.99,
-        category: "Tennis",
-        brand: "Wilson",
-        image: racket,
+        name: "Elite Running Shoes",
+        price: 89.99,
+        category: "Running",
+        brand: "Nike",
+        image: nike,
         badge: "Bestseller",
-        description: "Tournament-level tennis racket with carbon fiber frame for power and control."
+        description: "Lightweight, cushioned running shoes designed for performance and comfort."
       },
       {
         id: 3,
-        name: "Ultra Grip Yoga Mat",
+        name: "Professional Badminton Racket",
+        price: 49.99,
+        category: "Badminton",
+        brand: "Yonex",
+        image: yonex,
+        badge: null,
+        description: "Carbon fiber badminton racket with high tension strings for competitive play."
+      },
+      {
+        id: 4,
+        name: "Swimming Goggles - Pro Vision",
+        price: 24.99,
+        category: "Swimming",
+        brand: "Speedo",
+        image: goggles,
+        badge: null,
+        description: "Anti-fog goggles with UV protection and wide field of view."
+      },
+      {
+        id: 5,
+        name: "Yoga Mat - Ultra Grip",
         price: 35.99,
         category: "Yoga",
         brand: "Lululemon",
         image: yogaMat,
         badge: null,
-        description: "Extra thick yoga mat with non-slip surface for stability during practice."
-      },
-      {
-        id: 4,
-        name: "Smart Water Bottle",
-        price: 24.99,
-        category: "Accessories",
-        brand: "HydroFlask",
-        image: smartWaterBootle,
-        badge: null,
-        description: "Insulated water bottle that keeps drinks cold for 24 hours or hot for 12 hours."
-      },
-      {
-        id: 5,
-        name: "Performance Gym Gloves",
-        price: 29.99,
-        category: "Training",
-        brand: "Under Armour",
-        image: gloves,
-        badge: null,
-        description: "Breathable gym gloves with padded palm for enhanced grip and comfort."
+        description: "Eco-friendly, non-slip yoga mat ideal for all types of practice."
       },
       {
         id: 6,
-        name: "Wireless Sport Earbuds",
-        price: 89.99,
-        category: "Electronics",
-        brand: "Beats",
-        image: earbuds,
+        name: "Premium Volleyball",
+        price: 39.99,
+        category: "VolleyBall",
+        brand: "Mikasa",
+        image: mikasa,
         badge: "Sale",
-        description: "Sweat-resistant wireless earbuds with 8-hour battery life for intense workouts."
+        description: "Soft touch synthetic leather volleyball designed for indoor and outdoor use."
       },
       {
         id: 7,
-        name: "Professional Badminton Set",
-        price: 59.99,
-        category: "Badminton",
-        brand: "Yonex",
-        image: badminton,
+        name: "Official Match Football",
+        price: 54.99,
+        category: "Football",
+        brand: "Adidas",
+        image: adidas,
         badge: null,
-        description: "Complete badminton set with 4 rackets, shuttlecocks, and carrying case."
+        description: "FIFA approved match football for professional tournaments."
       },
       {
         id: 8,
-        name: "Swimming Goggles",
-        price: 19.99,
-        category: "Swimming",
-        brand: "Speedo",
-        image: goggles,
-        badge: null,
-        description: "Anti-fog swimming goggles with UV protection and adjustable strap."
+        name: "Hockey Stick - Xtreme Grip",
+        price: 64.99,
+        category: "Hockey",
+        brand: "Grays",
+        image: hockeyStick,
+        badge: "New",
+        description: "Carbon composite field hockey stick with enhanced grip and control."
       },
       {
         id: 9,
-        name: "Carbon Fiber Tennis Racket",
-        price: 149.99,
-        category: "Tennis",
-        brand: "Babolat",
-        image: badminton,
-        badge: "New",
-        description: "Lightweight carbon fiber tennis racket for advanced players."
+        name: "Cricket Gloves - Pro Series",
+        price: 29.99,
+        category: "Cricket",
+        brand: "SG",
+        image: cricketGloves,
+        badge: "Bestseller",
+        description: "Padded cricket gloves with superior grip and ventilation for long matches."
       },
       {
         id: 10,
-        name: "Pro Basketball Shoes",
-        price: 129.99,
-        category: "Basketball",
-        brand: "Nike",
-        image: "/api/placeholder/300/300",
-        badge: null,
-        description: "High-performance basketball shoes with ankle support and cushioned sole."
+        name: "Running Smartwatch",
+        price: 109.99,
+        category: "Running",
+        brand: "Garmin",
+        image: garmin,
+        badge: "New",
+        description: "GPS-enabled smartwatch that tracks pace, distance, and heart rate in real-time."
       },
       {
         id: 11,
-        name: "Compression Running Shorts",
-        price: 34.99,
-        category: "Training",
-        brand: "Under Armour",
-        image: "/api/placeholder/300/300",
-        badge: "Sale",
-        description: "Moisture-wicking compression shorts with reflective details for visibility."
+        name: "Yoga Block & Strap Set",
+        price: 19.99,
+        category: "Yoga",
+        brand: "Manduka",
+        image: manduka,
+        badge: null,
+        description: "Supportive foam block and adjustable strap combo for improving flexibility and form."
       },
       {
         id: 12,
-        name: "Fitness Tracker Watch",
-        price: 99.99,
-        category: "Electronics",
-        brand: "Garmin",
-        image: "/api/placeholder/300/300",
-        badge: null,
-        description: "Waterproof fitness tracker with heart rate monitor and sleep tracking."
+        name: "Volleyball Knee Pads",
+        price: 22.49,
+        category: "VolleyBall",
+        brand: "ASICS",
+        image: assics,
+        badge: "Sale",
+        description: "Impact-resistant knee pads with breathable mesh fabric for maximum comfort."
       }
+      
     ];
-
+    
     export const productDetails = [
       {
         id: 1,
-        name: "Pro Training Basketball",
-        price: 49.99,
-        category: "Basketball",
-        brand: "Nike",
+        name: "Pro Cricket Bat",
+        price: 99.99,
+        category: "Cricket",
+        brand: "SG",
         images: [
-          basketBall,
+          cricketBat,
           "/api/placeholder/500/500",
           "/api/placeholder/500/500",
           "/api/placeholder/500/500"
         ],
-        colors: ["Orange", "Black", "Blue"],
-        sizes: ["Size 5", "Size 6", "Size 7"],
-        rating: 4.8,
-        reviews: 124,
-        stock: 25,
-        description: "Professional-grade training basketball with superior grip and durability. Perfect for both indoor and outdoor courts, this ball delivers consistent performance in all conditions.",
+        colors: ["Natural", "Black", "Red"],
+        sizes: ["Short Handle", "Long Handle", "Harrow"],
+        rating: 4.9,
+        reviews: 143,
+        stock: 18,
+        description: "Professional English Willow cricket bat ideal for tournament play. Designed for power hitters and precision strokes.",
         features: [
-          "Premium composite leather cover",
-          "Deep channel design for superior ball control",
-          "Suitable for indoor and outdoor use",
-          "Official size and weight",
-          "Advanced moisture-wicking technology"
+          "Grade 1 English Willow",
+          "Thick edges and curved blade",
+          "Toe guard for moisture protection",
+          "Superior grip and balanced pickup",
+          "Pre-knocked and ready to play"
         ],
         specifications: {
-          "Material": "Composite Leather",
-          "Weight": "22 oz",
-          "Recommended Use": "Indoor/Outdoor",
-          "Inflation": "8-10 PSI",
-          "Official Size": "Size 7 (29.5\")"
+          "Material": "English Willow",
+          "Weight": "2.7 lbs",
+          "Grip": "Rubber",
+          "Handle Type": "Short Handle",
+          "Recommended Use": "Professional Matches"
         }
       },
       {
         id: 2,
-        name: "Premium Tennis Racket",
-        price: 129.99,
-        category: "Tennis",
-        brand: "Wilson",
+        name: "High-Speed Running Shoes",
+        price: 79.99,
+        category: "Running",
+        brand: "Nike",
         images: [
-          racket,
-          badminton,
-          batminton2
+          running,
+          "/api/placeholder/500/500",
+          "/api/placeholder/500/500"
         ],
-        colors: ["Black/Green", "White/Blue", "Red/Black"],
-        sizes: ["27 inches", "27.5 inches", "28 inches"],
-        rating: 4.6,
-        reviews: 89,
-        stock: 12,
-        description: "Tournament-level tennis racket with carbon fiber frame for power and control.",
+        colors: ["Blue", "Grey", "Neon Green"],
+        sizes: ["UK 7", "UK 8", "UK 9", "UK 10"],
+        rating: 4.8,
+        reviews: 203,
+        stock: 30,
+        description: "Engineered for speed and cushioning, perfect for daily runs or marathons.",
         features: [
-          "Carbon fiber construction for optimal power",
-          "Vibration dampening technology",
-          "Ergonomic grip for comfort",
-          "Large sweet spot for forgiveness",
-          "Includes protective cover"
+          "Breathable mesh upper",
+          "Lightweight foam midsole",
+          "Non-slip rubber outsole",
+          "Reflective elements for visibility",
+          "Arch support for long-distance comfort"
         ],
         specifications: {
-          "Head Size": "100 sq. inches",
-          "Weight": "10.4 oz",
-          "Length": "27 inches",
-          "Balance": "4 pts HL",
-          "String Pattern": "16x19"
+          "Material": "Mesh + EVA",
+          "Weight": "250g",
+          "Heel-to-Toe Drop": "8mm",
+          "Cushioning": "Responsive foam",
+          "Recommended Use": "Road Running"
         }
       },
       {
         id: 3,
-        name: "Ultra Grip Yoga Mat",
-        price: 35.99,
-        category: "Yoga",
-        brand: "Lululemon",
+        name: "Professional Badminton Racket",
+        price: 54.99,
+        category: "Badminton",
+        brand: "Yonex",
         images: [
-          racket,
-          badminton,
+          yonex,
+          "/api/placeholder/500/500",
           "/api/placeholder/500/500"
         ],
-        colors: ["Purple", "Black", "Blue", "Green"],
-        sizes: ["Standard", "Extra Long"],
-        rating: 4.7,
-        reviews: 210,
-        stock: 43,
-        description: "Extra thick yoga mat with non-slip surface for stability during practice.",
+        colors: ["Black/Red", "Blue/Silver"],
+        sizes: ["G4 - 3U", "G5 - 4U"],
+        rating: 4.6,
+        reviews: 97,
+        stock: 20,
+        description: "Lightweight and powerful badminton racket with high-tension string support.",
         features: [
-          "6mm thickness for joint protection",
-          "Non-slip texture on both sides",
-          "Eco-friendly TPE material",
-          "Easy to clean and maintain",
-          "Includes carrying strap"
+          "Graphite shaft with isometric head shape",
+          "Built-in T-Joint for stability",
+          "Aerodynamic frame for fast swings",
+          "Enhanced control with textured grip",
+          "Includes full-length cover"
         ],
         specifications: {
-          "Material": "TPE (Thermoplastic Elastomer)",
-          "Thickness": "6mm",
-          "Length": "72 inches",
-          "Width": "24 inches",
-          "Weight": "2.5 lbs"
+          "Weight": "85g (3U)",
+          "String Tension": "Up to 30 lbs",
+          "Balance": "Even",
+          "Frame Material": "Graphite",
+          "Recommended Use": "Intermediate to Advanced"
         }
       }
     ];
+    

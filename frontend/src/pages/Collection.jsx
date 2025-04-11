@@ -23,10 +23,38 @@ const Collection = () => {
 
 
   // Available categories
-  const categories = ['All', 'Basketball', 'Tennis', 'Yoga', 'Swimming', 'Training', 'Badminton', 'Electronics', 'Accessories'];
+  const categories = [
+    'All',
+    'Cricket',
+    'Running',
+    'Badminton',
+    'Swimming',
+    'Yoga',
+    'VolleyBall',
+    'Football',
+    'Hockey'
+  ];
+  
+  
   
   // Available brands
-  const brands = ['Nike', 'Adidas', 'Under Armour', 'Wilson', 'Yonex', 'Lululemon', 'Speedo', 'HydroFlask', 'Beats', 'Babolat', 'Garmin'];
+  const brands = [
+    'Nike',         // Pro Basketball Shoes, Basketball
+    'Wilson',       // Premium Tennis Racket
+    'Lululemon',    // Ultra Grip Yoga Mat
+    'HydroFlask',   // Smart Water Bottle
+    'Under Armour', // Performance Gym Gloves, Running Shorts
+    'Beats',        // Wireless Sport Earbuds
+    'Yonex',        // Badminton Set
+    'Speedo',       // Swimming Goggles
+    'Babolat',      // Tennis Racket
+    'Garmin',       // Fitness Tracker Watch, Running Smartwatch
+    'SG',           // Cricket Gloves
+    'Manduka',      // Yoga Block & Strap Set
+    'ASICS'         // Volleyball Knee Pads
+  ];
+  
+  
 
   // Filter products based on all criteria
   useEffect(() => {
