@@ -1,96 +1,169 @@
-import React, { useState } from 'react'
-import { ShoppingBag, Search, Menu, X, ChevronDown, Heart, User } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import {Link} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Menu, X, ShoppingCart, Heart, Search, User } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const location = useLocation();
-    const navigate= useNavigate();
+  const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [cartItemCount, setCartItemCount] = useState(0);
+  const [wishlistItemCount, setWishlistItemCount] = useState(0);
 
-    return (
-        < div className="fixed w-full bg-black/90 backdrop-blur-sm z-50" >
-            <div className="max-w-7xl mx-auto px-4">
-                <div className="flex items-center justify-between py-4">
-                    {/* Logo */}
-                    <div className="flex items-center hover:cursor-pointer" onClick={() => navigate('/')}>
-                        <h1 className="text-2xl font-bold">
-                            <span className="text-rose-600">House</span>Baj
-                        </h1>
-                    </div>
+  // Handle scroll event to add background to navbar when scrolled
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 10;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
 
-                    {/* Desktop Nav */}
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrolled]);
 
-                    {
-                        location.pathname == '/' && (
+  // Get cart and wishlist item counts from localStorage
+  useEffect(() => {
+    const updateCounts = () => {
+      try {
+        // Get cart count
+        const savedCart = localStorage.getItem('cart');
+        const cart = savedCart ? JSON.parse(savedCart) : [];
+        setCartItemCount(cart.length);
+        
+        // Get wishlist count
+        const savedWishlist = localStorage.getItem('wishlist');
+        const wishlist = savedWishlist ? JSON.parse(savedWishlist) : [];
+        setWishlistItemCount(wishlist.length);
+      } catch (error) {
+        console.error('Error loading cart/wishlist counts:', error);
+      }
+    };
 
-                            <nav className="hidden md:flex space-x-8">
-                                <a href="#hero" className="hover:text-rose-500 font-medium">Home</a>
-                                <a href="#categories" className="hover:text-rose-500 font-medium">Categories</a>
-                                <a href="#featured" className="hover:text-rose-500 font-medium">Featured</a>
-                                <a href="#contact" className="hover:text-rose-500 font-medium">Contact</a>
-                            </nav>
-                        )
-                    }
+    // Update counts on mount
+    updateCounts();
 
+    // Set up a listener for storage events to update counts when cart/wishlist changes
+    window.addEventListener('storage', updateCounts);
+    
+    // Also check periodically (for updates made in the same tab)
+    const intervalId = setInterval(updateCounts, 2000);
+    
+    return () => {
+      window.removeEventListener('storage', updateCounts);
+      clearInterval(intervalId);
+    };
+  }, []);
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
-                    {/* User options */}
-                    <div className="hidden md:flex items-center space-x-6">
-                        <button className="hover:text-rose-500">
-                            <Search size={20} />
-                        </button>
-                        <button className="hover:text-rose-500">
-                            <User size={20} />
-                        </button>
-                        <button className="hover:text-rose-500">
-                            <Heart size={20} />
-                        </button>
-                        <button className="flex items-center text-rose-600">
-                            <ShoppingBag size={20} />
-                            <span className="ml-2 bg-rose-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">3</span>
-                        </button>
-                    </div>
+  const handleNavigate = (path) => {
+    navigate(path);
+    setIsMenuOpen(false);
+  };
 
-                    {/* Mobile menu button */}
-                    <div className="md:hidden flex items-center">
-                        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-                            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                        </button>
-                    </div>
-                </div>
-            </div>
+  return (
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+      scrolled || isMenuOpen ? 'bg-gray-900 shadow-lg' : 'bg-transparent'
+    }`}>
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <Link to="/" className="text-white font-bold text-xl">
+              HouseBaj<span className="text-rose-500">Sports</span>
+            </Link>
+          </div>
+        
+          
+          {/* Right Icons */}
+          <div className="flex items-center">
+            
+            <button 
+              className="text-gray-300 hover:text-white p-2 rounded-full relative"
+              onClick={() => navigate('/wishlist')}
+            >
+              <Heart size={22} />
+              {wishlistItemCount > 0 && (
+                <span className="absolute top-0 right-0 bg-rose-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {wishlistItemCount}
+                </span>
+              )}
+            </button>
+            
+            <button 
+              className="text-gray-300 hover:text-white p-2 rounded-full relative"
+              onClick={() => navigate('/cart')}
+            >
+              <ShoppingCart size={22} />
+              {cartItemCount > 0 && (
+                <span className="absolute top-0 right-0 bg-rose-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartItemCount}
+                </span>
+              )}
+            </button>
+            
+            <button 
+              className="text-gray-300 hover:text-white p-2 rounded-full"
+              onClick={() => navigate('/profile')}
+            >
+              <User size={22} />
+            </button>
+            
+            {/* Mobile menu button */}
+            <button
+              className="md:hidden text-gray-300 hover:text-white p-2 rounded-full ml-1"
+              onClick={toggleMenu}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      {/* Mobile menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-gray-900 shadow-lg">
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <button 
+              onClick={() => handleNavigate('/')}
+              className="block w-full text-left text-gray-300 hover:text-white hover:bg-gray-800 px-3 py-2 rounded"
+            >
+              Home
+            </button>
+            <button 
+              onClick={() => handleNavigate('/collection')}
+              className="block w-full text-left text-gray-300 hover:text-white hover:bg-gray-800 px-3 py-2 rounded"
+            >
+              Collection
+            </button>
+            <button 
+              onClick={() => handleNavigate('/wishlist')}
+              className="block w-full text-left text-gray-300 hover:text-white hover:bg-gray-800 px-3 py-2 rounded"
+            >
+              Wishlist
+            </button>
+            <button 
+              onClick={() => handleNavigate('/cart')}
+              className="block w-full text-left text-gray-300 hover:text-white hover:bg-gray-800 px-3 py-2 rounded"
+            >
+              Cart
+            </button>
+            <button 
+              onClick={() => handleNavigate('/account')}
+              className="block w-full text-left text-gray-300 hover:text-white hover:bg-gray-800 px-3 py-2 rounded"
+            >
+              Account
+            </button>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};
 
-            {/* Mobile menu */}
-            {
-                mobileMenuOpen && (
-                    <div className="md:hidden bg-gray-900 p-4">
-
-                        {
-                            location.pathname == '/' && (
-                                <nav className="flex flex-col space-y-4">
-                                    <a href="#hero" className="hover:text-rose-500">Home</a>
-                                    <a href="#categories" className="hover:text-rose-500">Categories</a>
-                                    <a href="#featured" className="hover:text-rose-500">Featured</a>
-                                    <a href="#contact" className="hover:text-rose-500">Contact</a>
-                                </nav>
-                            )
-                        }
-
-                        <div className="flex justify-between mt-4 pt-4 border-t border-gray-700">
-                            <button className="hover:text-rose-500"><Search size={20} /></button>
-                            <button className="hover:text-rose-500"><User size={20} /></button>
-                            <button className="hover:text-rose-500"><Heart size={20} /></button>
-                            <button className="text-rose-600 flex items-center">
-                                <ShoppingBag size={20} />
-                                <span className="ml-1 bg-rose-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">3</span>
-                            </button>
-                        </div>
-                    </div>
-                )
-            }
-        </div >
-    )
-}
-
-export default Navbar
+export default Navbar;

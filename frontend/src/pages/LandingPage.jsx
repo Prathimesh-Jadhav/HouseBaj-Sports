@@ -10,6 +10,15 @@ const LandingPage = () => {
 
   const navigate = useNavigate();
 
+  const handleNavigateToCollection = () => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    if (isLoggedIn) {
+      navigate('/collection');
+    } else {
+      navigate('/auth');
+    }
+  }
+
   return (
     <div className="min-h-screen bg-black text-white">
 
@@ -23,7 +32,7 @@ const LandingPage = () => {
               <h1 className="text-4xl md:text-6xl font-bold mb-4">Elevate Your <span className="text-rose-600">Game</span></h1>
               <p className="text-lg md:text-xl text-gray-300 mb-8">Premium sports accessories for champions. Discover our elite collection designed for performance and style.</p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-rose-600 hover:bg-rose-700 text-white px-8 py-3 rounded-md font-medium" onClick={() => navigate('/collection')}>Shop Now</button>
+                <button className="bg-rose-600 hover:bg-rose-700 text-white px-8 py-3 rounded-md font-medium"  onClick={handleNavigateToCollection}>Shop Now</button>
                 <a href='#categories' className="border border-white hover:border-rose-600 hover:text-rose-600 px-8 py-3 rounded-md font-medium">Explore Categories</a>
               </div>
             </div>

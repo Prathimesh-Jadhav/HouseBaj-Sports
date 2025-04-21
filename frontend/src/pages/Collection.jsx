@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { ShoppingCart, Search, Menu, X, ChevronDown, Sliders, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import {products} from '../data';
+import axios from 'axios';
+
+// import {products} from '../data';
 
 // You would replace this with your actual image import
 const basketBall = "/api/placeholder/300/300";
@@ -19,46 +21,75 @@ const Collection = () => {
   const [sortOption, setSortOption] = useState('Featured');
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(8); // Show 8 products per page
+  const [products, setProducts] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const [categories, setCategories] = useState([]);
   
 
 
   // Available categories
-  const categories = [
-    'All',
-    'Cricket',
-    'Running',
-    'Badminton',
-    'Swimming',
-    'Yoga',
-    'VolleyBall',
-    'Football',
-    'Hockey'
-  ];
+  // const categories = [
+  //   'All',
+  //   'Cricket',
+  //   'Running',
+  //   'Badminton',
+  //   'Swimming',
+  //   'Yoga',
+  //   'VolleyBall',
+  //   'Football',
+  //   'Hockey'
+  // ];
   
   
   
   // Available brands
-  const brands = [
-    'Nike',         // Pro Basketball Shoes, Basketball
-    'Wilson',       // Premium Tennis Racket
-    'Lululemon',    // Ultra Grip Yoga Mat
-    'HydroFlask',   // Smart Water Bottle
-    'Under Armour', // Performance Gym Gloves, Running Shorts
-    'Beats',        // Wireless Sport Earbuds
-    'Yonex',        // Badminton Set
-    'Speedo',       // Swimming Goggles
-    'Babolat',      // Tennis Racket
-    'Garmin',       // Fitness Tracker Watch, Running Smartwatch
-    'SG',           // Cricket Gloves
-    'Manduka',      // Yoga Block & Strap Set
-    'ASICS'         // Volleyball Knee Pads
-  ];
+  // const brands = [
+  //   'Nike',         // Pro Basketball Shoes, Basketball
+  //   'Wilson',       // Premium Tennis Racket
+  //   'Lululemon',    // Ultra Grip Yoga Mat
+  //   'HydroFlask',   // Smart Water Bottle
+  //   'Under Armour', // Performance Gym Gloves, Running Shorts
+  //   'Beats',        // Wireless Sport Earbuds
+  //   'Yonex',        // Badminton Set
+  //   'Speedo',       // Swimming Goggles
+  //   'Babolat',      // Tennis Racket
+  //   'Garmin',       // Fitness Tracker Watch, Running Smartwatch
+  //   'SG',           // Cricket Gloves
+  //   'Manduka',      // Yoga Block & Strap Set
+  //   'ASICS'         // Volleyball Knee Pads
+  // ];
   
   
 
+  useEffect(()=>{
+    // call an api to get products
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/product/getAllProducts`); // Adjust the endpoint as needed
+        console.log(response.data.data);
+        setProducts(response.data.data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+    fetchProducts();
+  },[])
+
+  useEffect(() => {
+    console.log('Products:', products);
+    //filter brands and categories from products
+    const uniqueBrands = [...new Set(products.map(product => product.brand))];
+    const uniqueCategories = [...new Set(products.map(product => product.category))];
+    setBrands(uniqueBrands);
+    setCategories(uniqueCategories);
+  }, [products]);
+
   // Filter products based on all criteria
   useEffect(() => {
+
     let result = [...products];
+
+    
     
     // Filter by category
     if (selectedCategory !== 'All') {
@@ -350,7 +381,7 @@ const Collection = () => {
                   onClick={() => navigateToProductDetails(product.id)}
                 >
                   <div className="relative">
-                    <img src={product.image} alt={product.name} className="w-full h-64 object-cover object-center" />
+                    <img src={`${import.meta.env.VITE_BACKEND_URL}${product.image.replace(/\\/g, '/')}`} alt={product.name} className="w-full h-64 object-cover object-center" />
                     {product.badge && (
                       <span className={`absolute top-2 left-2 px-2 py-1 text-xs font-bold rounded ${
                         product.badge === 'New' ? 'bg-blue-500' : 

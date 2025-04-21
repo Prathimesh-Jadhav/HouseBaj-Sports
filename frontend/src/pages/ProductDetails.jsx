@@ -13,18 +13,24 @@ const ProductDetails = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [activeTab, setActiveTab] = useState('description');
-
-
-  // Sample product data - in a real app, you would fetch this based on the ID
-
-
-  // Additional products would be here...
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [addedToCart, setAddedToCart] = useState(false);
+  const [addedToWishlist, setAddedToWishlist] = useState(false);
 
   useEffect(() => {
     // Simulating API fetch with delay
     const timer = setTimeout(() => {
       const foundProduct = productDetails.find(p => p.id === parseInt(id));
       setProduct(foundProduct || productDetails[0]); // Default to first product if not found
+      
+      // Set default selected color and size if available
+      if (foundProduct && foundProduct.colors && foundProduct.colors.length > 0) {
+        setSelectedColor(foundProduct.colors[0]);
+      }
+      if (foundProduct && foundProduct.sizes && foundProduct.sizes.length > 0) {
+        setSelectedSize(foundProduct.sizes[0]);
+      }
       
       // Get related products (same category but different id)
       if (foundProduct) {
@@ -40,6 +46,25 @@ const ProductDetails = () => {
     return () => clearTimeout(timer);
   }, [id]);
 
+  // Check if product is in cart or wishlist
+  useEffect(() => {
+    if (product) {
+      try {
+        // Check cart
+        const savedCart = localStorage.getItem('cart');
+        const cart = savedCart ? JSON.parse(savedCart) : [];
+        setAddedToCart(cart.some(item => item.id === product.id));
+        
+        // Check wishlist
+        const savedWishlist = localStorage.getItem('wishlist');
+        const wishlist = savedWishlist ? JSON.parse(savedWishlist) : [];
+        setAddedToWishlist(wishlist.some(item => item.id === product.id));
+      } catch (error) {
+        console.error('Error checking product status:', error);
+      }
+    }
+  }, [product]);
+
   const handleQuantityChange = (amount) => {
     const newQuantity = quantity + amount;
     if (newQuantity >= 1 && newQuantity <= (product?.stock || 10)) {
@@ -48,15 +73,88 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = () => {
-    // In a real app, dispatch to cart state/context
-    console.log('Added to cart:', { ...product, quantity });
-    // Could show a success toast here
+    if (!product) return;
+    
+    try {
+      // Get current cart from localStorage
+      const savedCart = localStorage.getItem('cart');
+      const cart = savedCart ? JSON.parse(savedCart) : [];
+      
+      // Check if product already exists in cart
+      const existingItemIndex = cart.findIndex(item => item.id === product.id);
+      
+      if (existingItemIndex >= 0) {
+        // If exists, update quantity
+        cart[existingItemIndex].quantity += quantity;
+      } else {
+        // If not, add new item
+        cart.push({
+          ...product,
+          quantity,
+          selectedColor,
+          selectedSize
+        });
+      }
+      
+      // Save updated cart to localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+      
+      // Update UI
+      setAddedToCart(true);
+      
+      // Show temporary success message
+      alert(`${product.name} has been added to your cart!`);
+      
+      // Optionally navigate to cart
+      // navigate('/cart');
+    } catch (error) {
+      console.error('Error adding product to cart:', error);
+      alert('Failed to add product to cart. Please try again.');
+    }
   };
 
   const handleAddToWishlist = () => {
-    // In a real app, dispatch to wishlist state/context
-    console.log('Added to wishlist:', product);
-    // Could show a success toast here
+    if (!product) return;
+    
+    try {
+      // Get current wishlist from localStorage
+      const savedWishlist = localStorage.getItem('wishlist');
+      const wishlist = savedWishlist ? JSON.parse(savedWishlist) : [];
+      
+      // Check if product already exists in wishlist
+      const exists = wishlist.some(item => item.id === product.id);
+      
+      if (!exists) {
+        // Add to wishlist
+        wishlist.push({
+          ...product,
+          selectedColor,
+          selectedSize
+        });
+        
+        // Save updated wishlist to localStorage
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        
+        // Update UI
+        setAddedToWishlist(true);
+        
+        // Show temporary success message
+        alert(`${product.name} has been added to your wishlist!`);
+      } else {
+        // Remove from wishlist
+        const updatedWishlist = wishlist.filter(item => item.id !== product.id);
+        localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+        
+        // Update UI
+        setAddedToWishlist(false);
+        
+        // Show temporary message
+        alert(`${product.name} has been removed from your wishlist.`);
+      }
+    } catch (error) {
+      console.error('Error updating wishlist:', error);
+      alert('Failed to update wishlist. Please try again.');
+    }
   };
 
   const handleShare = () => {
@@ -73,6 +171,64 @@ const ProductDetails = () => {
 
   const goBack = () => {
     navigate(-1);
+  };
+
+  const addRelatedProductToCart = (e, relatedProduct) => {
+    e.stopPropagation();
+    try {
+      // Get current cart from localStorage
+      const savedCart = localStorage.getItem('cart');
+      const cart = savedCart ? JSON.parse(savedCart) : [];
+      
+      // Check if product already exists in cart
+      const existingItemIndex = cart.findIndex(item => item.id === relatedProduct.id);
+      
+      if (existingItemIndex >= 0) {
+        // If exists, increment quantity
+        cart[existingItemIndex].quantity += 1;
+      } else {
+        // If not, add new item with quantity 1
+        cart.push({
+          ...relatedProduct,
+          quantity: 1
+        });
+      }
+      
+      // Save updated cart to localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+      
+      // Show success message
+      alert(`${relatedProduct.name} has been added to your cart!`);
+    } catch (error) {
+      console.error('Error adding related product to cart:', error);
+    }
+  };
+
+  const addRelatedProductToWishlist = (e, relatedProduct) => {
+    e.stopPropagation();
+    try {
+      // Get current wishlist from localStorage
+      const savedWishlist = localStorage.getItem('wishlist');
+      const wishlist = savedWishlist ? JSON.parse(savedWishlist) : [];
+      
+      // Check if product already exists in wishlist
+      const exists = wishlist.some(item => item.id === relatedProduct.id);
+      
+      if (!exists) {
+        // Add to wishlist
+        wishlist.push(relatedProduct);
+        
+        // Save updated wishlist to localStorage
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        
+        // Show success message
+        alert(`${relatedProduct.name} has been added to your wishlist!`);
+      } else {
+        alert(`${relatedProduct.name} is already in your wishlist.`);
+      }
+    } catch (error) {
+      console.error('Error adding related product to wishlist:', error);
+    }
   };
 
   if (loading) {
@@ -180,7 +336,6 @@ const ProductDetails = () => {
               
               {/* Product Title */}
               <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-              
               {/* Ratings */}
               <div className="flex items-center mb-4">
                 <div className="flex items-center mr-2">
@@ -208,8 +363,9 @@ const ProductDetails = () => {
                     {product.colors.map((color, index) => (
                       <button 
                         key={color}
+                        onClick={() => setSelectedColor(color)}
                         className={`px-4 py-2 rounded-full border ${
-                          index === 0 
+                          color === selectedColor 
                             ? 'border-rose-500 bg-gray-800' 
                             : 'border-gray-700 bg-gray-900 hover:bg-gray-800'
                         }`}
@@ -232,8 +388,9 @@ const ProductDetails = () => {
                     {product.sizes.map((size, index) => (
                       <button 
                         key={size}
+                        onClick={() => setSelectedSize(size)}
                         className={`px-4 py-2 rounded-md border ${
-                          index === 0 
+                          size === selectedSize 
                             ? 'border-rose-500 bg-gray-800' 
                             : 'border-gray-700 bg-gray-900 hover:bg-gray-800'
                         }`}
@@ -279,17 +436,17 @@ const ProductDetails = () => {
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
                 <button 
                   onClick={handleAddToCart}
-                  className="flex-1 bg-rose-500 text-white py-3 px-6 rounded-lg font-medium hover:bg-rose-600 flex items-center justify-center"
+                  className={`flex-1 ${addedToCart ? 'bg-green-600 hover:bg-green-700' : 'bg-rose-500 hover:bg-rose-600'} text-white py-3 px-6 rounded-lg font-medium flex items-center justify-center`}
                 >
                   <ShoppingCart size={20} className="mr-2" />
-                  Add to Cart
+                  {addedToCart ? 'Added to Cart' : 'Add to Cart'}
                 </button>
                 <button 
                   onClick={handleAddToWishlist}
-                  className="bg-gray-800 text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-700 flex items-center justify-center"
+                  className={`bg-gray-800 text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-700 flex items-center justify-center ${addedToWishlist ? 'border-2 border-rose-500' : ''}`}
                 >
-                  <Heart size={20} className="mr-2" />
-                  Wishlist
+                  <Heart size={20} className={`mr-2 ${addedToWishlist ? 'fill-rose-500 text-rose-500' : ''}`} />
+                  {addedToWishlist ? 'In Wishlist' : 'Wishlist'}
                 </button>
                 <button 
                   onClick={handleShare}
@@ -386,19 +543,13 @@ const ProductDetails = () => {
                       <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <button 
                           className="bg-rose-500 text-white rounded-full p-3 mx-2 hover:bg-rose-600 transition"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            console.log('Add to cart:', relatedProduct);
-                          }}
+                          onClick={(e) => addRelatedProductToCart(e, relatedProduct)}
                         >
                           <ShoppingCart size={20} />
                         </button>
                         <button 
                           className="bg-gray-800 text-white rounded-full p-3 mx-2 hover:bg-gray-700 transition"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            console.log('Add to wishlist:', relatedProduct);
-                          }}
+                          onClick={(e) => addRelatedProductToWishlist(e, relatedProduct)}
                         >
                           <Heart size={20} />
                         </button>
@@ -411,7 +562,10 @@ const ProductDetails = () => {
                         <span className="text-rose-500 font-bold">${relatedProduct.price.toFixed(2)}</span>
                         <button 
                           className="text-sm text-gray-300 hover:text-white"
-                          onClick={() => navigateToProduct(relatedProduct.id)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigateToProduct(relatedProduct.id);
+                          }}
                         >
                           View Details
                         </button>
